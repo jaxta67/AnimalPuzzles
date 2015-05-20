@@ -24,6 +24,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cameron.animalpuzzles.MainActivity" />
         </activity>
+        <activity
+            android:name=".PlayGame"
+            android:label="@string/title_activity_play_game"
+            android:parentActivityName=".SelectPuzzle" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cameron.animalpuzzles.SelectPuzzle" />
+        </activity>
     </application>
 
 </manifest>
