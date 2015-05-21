@@ -9,16 +9,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 
 
 public class PlayGame extends ActionBarActivity {
 
     int setX = 0;
     int setY = 0;
-    int numY = 4;
-    int numX = 5;
+    int numY = 2;
+    int numX = 2;
     ImageView[][] puzzleGrid = new ImageView[numY][numX];
 
 
@@ -26,37 +28,36 @@ public class PlayGame extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout);
+        TableLayout layout = (TableLayout) findViewById(R.id.tableGrid);
 
 
 
 
-       //Piece one
-        ImageView pieceOne = (ImageView) findViewById(R.id.test1);
-        pieceOne.setBackgroundColor(Color.rgb(100, 100, 50));
+
        //Black box
         ImageView boxOne = (ImageView) findViewById(R.id.test2);
 
-        //Piece One is object to be dragged
-        pieceOne.setOnTouchListener(new dropTouchListener());
+
+
         //Box two is where the object will be dropped on
-        boxOne.setOnDragListener(new puzzleDragListener());
+        boxOne.setOnTouchListener(new dropTouchListener());
 
 
         for(int y = 0;y<numY;y++){
             for(int x = 0;x<numX;x++){
                 puzzleGrid[y][x] = new ImageView(this);
                 puzzleGrid[y][x].setImageResource(R.drawable.ic_launcher);
-                puzzleGrid[y][x].setMinimumHeight(48);
-                puzzleGrid[y][x].setMinimumWidth(48);
+                puzzleGrid[y][x].setMinimumHeight(10);
+                puzzleGrid[y][x].setMinimumWidth(10);
                 puzzleGrid[y][x].setX(setX);
                 puzzleGrid[y][x].setY(setY);
+                puzzleGrid[y][x].setOnDragListener(new puzzleDragListener());
 
-                setX += 96;
+                setX += 10;
                 layout.addView(puzzleGrid[y][x]);
 
             }
-            setY += 96;
+            setY += 10;
             setX = 0;
 
         }
