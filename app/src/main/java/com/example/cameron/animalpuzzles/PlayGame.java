@@ -1,78 +1,111 @@
 package com.example.cameron.animalpuzzles;
 
 import android.content.ClipData;
-import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.view.View.OnClickListener;
-
 
 
 public class PlayGame extends ActionBarActivity {
-    ImageView testImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
 
-        //ImageView
-        ImageView testImage = (ImageView) findViewById(R.id.imageView);
-        testImage.setBackgroundColor(Color.rgb(100, 100, 50));
 
 
-        testImage.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
 
-                //DragShadow dragShadow = new DragShadow(v);
-                ClipData clip = ClipData.newPlainText("", "");
-                v.startDrag(clip,  new View.DragShadowBuilder(v), v, 0);
-                return true;
-            }
-        });
+       //Piece one
+        ImageView pieceOne = (ImageView) findViewById(R.id.test1);
+        pieceOne.setBackgroundColor(Color.rgb(100, 100, 50));
+       //Black box
+        ImageView boxOne = (ImageView) findViewById(R.id.test2);
 
-        ImageView testImage2 = (ImageView) findViewById(R.id.imageView2);
+        //Piece One is object to be dragged
+        pieceOne.setOnTouchListener(new dropTouchListener());
+        //Box two is where the object will be dropped on
+        boxOne.setOnDragListener(new puzzleDragListener());
 
-        testImage2.setOnDragListener(new View.OnDragListener() {
 
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
 
-                int dragEvent = event.getAction();
 
-                switch(dragEvent){
-                    case DragEvent.ACTION_DRAG_ENTERED:
-                        Log.i("Drag Event", "Enetered Piece Area");
-                        break;
-                    case DragEvent.ACTION_DRAG_EXITED  :
-                        Log.i("Drag Event", "Left Piece Area");
-                        break;
-                    case DragEvent.ACTION_DROP:
-                        Log.i("Drag Event", "Piece Dropped");
-                        ImageView target = (ImageView) v;
-                        //returns the dragged information passed into dragged object
-                        ImageView dragged = (ImageView) event.getLocalState();
-                        target.setBackgroundColor(Color.BLUE);
-                        int image = R.drawable.ic_launcher;
-                        target.setImageResource(image);
-                        break;
-                }
 
-                return true;
-            }
-        });
+
+
+
+
+
+
+
     }
+
+    //Listener Classes implemented here
+
+    class dropTouchListener implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            // Handles touch dropping
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                // Drag code here
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+                v.startDrag(data, shadowBuilder, v, 0);
+
+                return true;
+
+            } else {
+                return false;
+            }
+
+        }
+    }
+
+
+     class puzzleDragListener implements View.OnDragListener {
+        //Handles dragging
+
+        @Override
+        public boolean onDrag(View v, DragEvent event) {
+            //handle drag event
+            switch (event.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    //no action needed
+                    break;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    //no action needed
+                    break;
+                case DragEvent.ACTION_DRAG_EXITED:
+                    //no action needed
+                    break;
+                case DragEvent.ACTION_DROP:
+                    //handle the dragged image
+                    View view = (View) event.getLocalState();
+                    view.setVisibility(View.INVISIBLE);
+                    ImageView dropTarget = (ImageView) v;
+
+                    dropTarget.setImageResource(R.drawable.fox);
+
+                    break;
+                case DragEvent.ACTION_DRAG_ENDED:
+                    //no action needed
+                    break;
+                default:
+                    break;
+            }
+
+            return true;
+        }
+    }
+
     /*
 
     private class DragShadow extends View.DragShadowBuilder{
@@ -105,6 +138,18 @@ public class PlayGame extends ActionBarActivity {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -126,4 +171,7 @@ public class PlayGame extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
