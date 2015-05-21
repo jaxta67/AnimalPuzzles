@@ -10,15 +10,23 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 
 public class PlayGame extends ActionBarActivity {
+
+    int setX = 0;
+    int setY = 0;
+    int numY = 4;
+    int numX = 5;
+    ImageView[][] puzzleGrid = new ImageView[numY][numX];
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout);
 
 
 
@@ -33,6 +41,25 @@ public class PlayGame extends ActionBarActivity {
         pieceOne.setOnTouchListener(new dropTouchListener());
         //Box two is where the object will be dropped on
         boxOne.setOnDragListener(new puzzleDragListener());
+
+
+        for(int y = 0;y<numY;y++){
+            for(int x = 0;x<numX;x++){
+                puzzleGrid[y][x] = new ImageView(this);
+                puzzleGrid[y][x].setImageResource(R.drawable.ic_launcher);
+                puzzleGrid[y][x].setMinimumHeight(48);
+                puzzleGrid[y][x].setMinimumWidth(48);
+                puzzleGrid[y][x].setX(setX);
+                puzzleGrid[y][x].setY(setY);
+
+                setX += 96;
+                layout.addView(puzzleGrid[y][x]);
+
+            }
+            setY += 96;
+            setX = 0;
+
+        }
 
 
 
@@ -91,6 +118,7 @@ public class PlayGame extends ActionBarActivity {
                     View view = (View) event.getLocalState();
                     view.setVisibility(View.INVISIBLE);
                     ImageView dropTarget = (ImageView) v;
+                    ImageView dropped = (ImageView) view;
 
                     dropTarget.setImageResource(R.drawable.fox);
 
