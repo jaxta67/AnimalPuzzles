@@ -1,7 +1,6 @@
 package com.example.cameron.animalpuzzles;
 
 import android.content.ClipData;
-import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.DragEvent;
@@ -9,22 +8,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 
 public class PlayGame extends ActionBarActivity {
 
-    /*int setX = 0;
-    int setY = 0;
-    int numY = 2;
-    int numX = 2; */
+
     int rowCount = 3;
     int columnCount = 3;
-   // ImageView[][] puzzleGrid = new ImageView[numY][numX];
+    int imageWidth = 44;
+    int imageHeight = 44;
+
+
+
 
 
     @Override
@@ -35,31 +33,52 @@ public class PlayGame extends ActionBarActivity {
 
 
 
-
-
-       //Black box
-        ImageView boxOne = (ImageView) findViewById(R.id.test2);
-
-
-
-        //Box two is where the object will be dropped on
-        boxOne.setOnTouchListener(new dropTouchListener());
-
-
-        TableLayout table = (TableLayout) findViewById(R.id.tableGrid);
         //The grid of squares used as puzzle boxes
-
-        for (int r=1; r<=rowCount; r++){
+        TableLayout table = (TableLayout) findViewById(R.id.tableGrid);
+            for (int r=1; r<=rowCount; r++){
             TableRow tr = new TableRow(this);
             for (int c=1; c<=columnCount; c++){
-                ImageView im = new ImageView (this);
+
+                ImageViewBox im = new ImageViewBox(this, r); // Create a new ImageViewBox Object
+                im.setPuzzleId(c);
                 im.setImageResource(R.drawable.ic_launcher);
                 //im.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
                 im.setPadding(0, 0, 0, 0); //padding in each image if needed
                 //add here on click event etc for each image...
                 im.setOnDragListener(new puzzleDragListener());
                 //Width Height of image
-                tr.addView(im,48, 48);
+                tr.addView(im,imageWidth, imageHeight);
+            }
+            table.addView(tr);
+        }
+
+        //Piece Grid - Puzzle pieces in grid
+        TableLayout tbl = (TableLayout) findViewById(R.id.pieceGrid);
+             for (int r=1; r<=rowCount; r++){
+            TableRow tr = new TableRow(this);
+            for (int c=1; c<=columnCount; c++){
+
+                ImageViewBox im = new ImageViewBox(this, r); // Create a new ImageViewBox Object
+                if(c == 1)  im.setImageResource(R.drawable.whale1);
+                if(c == 2)  im.setImageResource(R.drawable.whale2);
+                if(c == 3)  im.setImageResource(R.drawable.whale3);
+                if(c == 4)  im.setImageResource(R.drawable.whale4);
+                if(c == 5)  im.setImageResource(R.drawable.whale5);
+                if(c == 6)  im.setImageResource(R.drawable.whale6);
+                if(c == 7)  im.setImageResource(R.drawable.whale7);
+                if(c == 8)  im.setImageResource(R.drawable.whale8);
+                if(c == 9)  im.setImageResource(R.drawable.whale9);
+
+
+
+
+                im.setPadding(0, 0, 0, 0);
+
+                im.setOnTouchListener(new dropTouchListener());
+                //Gives the piece an id
+                im.setPuzzleId(c);
+                //Width Height of image
+                tr.addView(im,imageWidth, imageHeight);
             }
             table.addView(tr);
         }

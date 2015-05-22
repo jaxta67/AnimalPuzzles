@@ -9,22 +9,6 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="354dp"
-        android:layout_height="59dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/test2"
-            android:longClickable="false"
-            android:src="@color/abc_search_url_text_selected"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            android:contentDescription="pieceOne" />
-    </LinearLayout>
-
 
     <TableLayout
         android:layout_width="wrap_content"
@@ -33,6 +17,12 @@
         android:layout_gravity="center_horizontal">
 
     </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pieceGrid"
+        android:layout_gravity="center_horizontal"></TableLayout>
 
 
 </LinearLayout>
