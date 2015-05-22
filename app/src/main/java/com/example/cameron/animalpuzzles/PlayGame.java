@@ -13,15 +13,18 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 
 
 public class PlayGame extends ActionBarActivity {
 
-    int setX = 0;
+    /*int setX = 0;
     int setY = 0;
     int numY = 2;
-    int numX = 2;
-    ImageView[][] puzzleGrid = new ImageView[numY][numX];
+    int numX = 2; */
+    int rowCount = 3;
+    int columnCount = 3;
+   // ImageView[][] puzzleGrid = new ImageView[numY][numX];
 
 
     @Override
@@ -43,23 +46,22 @@ public class PlayGame extends ActionBarActivity {
         boxOne.setOnTouchListener(new dropTouchListener());
 
 
-        for(int y = 0;y<numY;y++){
-            for(int x = 0;x<numX;x++){
-                puzzleGrid[y][x] = new ImageView(this);
-                puzzleGrid[y][x].setImageResource(R.drawable.ic_launcher);
-                puzzleGrid[y][x].setMinimumHeight(10);
-                puzzleGrid[y][x].setMinimumWidth(10);
-                puzzleGrid[y][x].setX(setX);
-                puzzleGrid[y][x].setY(setY);
-                puzzleGrid[y][x].setOnDragListener(new puzzleDragListener());
+        TableLayout table = (TableLayout) findViewById(R.id.tableGrid);
+        //The grid of squares used as puzzle boxes
 
-                setX += 10;
-                layout.addView(puzzleGrid[y][x]);
-
+        for (int r=1; r<=rowCount; r++){
+            TableRow tr = new TableRow(this);
+            for (int c=1; c<=columnCount; c++){
+                ImageView im = new ImageView (this);
+                im.setImageResource(R.drawable.ic_launcher);
+                //im.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
+                im.setPadding(0, 0, 0, 0); //padding in each image if needed
+                //add here on click event etc for each image...
+                im.setOnDragListener(new puzzleDragListener());
+                //Width Height of image
+                tr.addView(im,48, 48);
             }
-            setY += 10;
-            setX = 0;
-
+            table.addView(tr);
         }
 
 
@@ -99,7 +101,7 @@ public class PlayGame extends ActionBarActivity {
 
 
      class puzzleDragListener implements View.OnDragListener {
-        //Handles dragging
+        //Handles the event that occurs when puzzle piece is dragged onto it
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
@@ -135,35 +137,7 @@ public class PlayGame extends ActionBarActivity {
         }
     }
 
-    /*
 
-    private class DragShadow extends View.DragShadowBuilder{
-
-        //ColorDrawable greybox;
-
-
-        public DragShadow(View view) {
-            super(view);
-           // greybox = new ColorDrawable(Color.LTGRAY);
-        }
-
-        @Override
-        public void onDrawShadow(Canvas canvas) {
-            //greybox.draw(canvas);
-        }
-
-        @Override
-        public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
-         //  View v = getView();
-          //  greybox.setBounds(0,0,48,48);
-           // shadowSize.set(48,48);
-            shadowTouchPoint.set(48/2,48/2);
-
-        }
-
-
-    }
-    */
 
 
 
