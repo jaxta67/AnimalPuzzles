@@ -62,19 +62,21 @@ public class PlayGame extends ActionBarActivity {
     public void populateDropBoxes(){
         //The grid of squares used as puzzle boxes
         TableLayout table = (TableLayout) findViewById(R.id.tableGrid);
+        int x = 0;
         for (int r=1; r<=rowCount; r++){
             TableRow tr = new TableRow(this);
             for (int c=1; c<=columnCount; c++){
 
                 ImageViewBox im = new ImageViewBox(this, r); // Create a new ImageViewBox Object
-                //im.setPuzzleId(c);
+                im.setPuzzleId(x);
                 im.setImageResource(R.drawable.gridbox);
-                //im.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
+
                 im.setPadding(0, 0, 0, 0); //padding in each image if needed
                 //add here on click event etc for each image...
                 im.setOnDragListener(new puzzleDragListener());
                 //Width Height of image
                 tr.addView(im,imageWidth, imageHeight);
+                x++;
             }
             table.addView(tr);
         }
@@ -90,10 +92,17 @@ public class PlayGame extends ActionBarActivity {
 
             for (int c=1; c<=columnCount; c++){
                 ImageViewBox im = new ImageViewBox(this, x); // Create a new ImageViewBox Object
-                if(x == 0) im.setImageResource(R.drawable.whale1);
-                if(x == 1) im.setImageResource(R.drawable.whale2);
-                if(x == 2) im.setImageResource(R.drawable.whale3);
-                //if(x == 3) im.setImageResource(R.drawable.whale5);
+
+               switch(x){
+                   case 0: im.setImageResource(R.drawable.whale1);
+                       break;
+                   case 1: im.setImageResource(R.drawable.whale2);
+                       break;
+                   case 2: im.setImageResource(R.drawable.whale3);
+                       break;
+
+               }
+                im.setPuzzleId(x);
 
 
                 x++;
@@ -158,7 +167,7 @@ public class PlayGame extends ActionBarActivity {
                     view.setVisibility(View.INVISIBLE);
                     ImageViewBox dropTarget = (ImageViewBox) v;
                     ImageViewBox dropped = (ImageViewBox) view;
-                    
+
                     dropTarget.setImageResource(R.drawable.fox);
 
                     break;
