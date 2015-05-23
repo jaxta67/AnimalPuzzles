@@ -25,23 +25,50 @@ public class PlayGame extends ActionBarActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
-        TableLayout layout = (TableLayout) findViewById(R.id.tableGrid);
+        populatePuzzlePieceGrid();
+        populateDropBoxes();
+        //TableLayout layout = (TableLayout) findViewById(R.id.tableGrid);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+    public void populateDropBoxes(){
         //The grid of squares used as puzzle boxes
         TableLayout table = (TableLayout) findViewById(R.id.tableGrid);
-            for (int r=1; r<=rowCount; r++){
+        for (int r=1; r<=rowCount; r++){
             TableRow tr = new TableRow(this);
             for (int c=1; c<=columnCount; c++){
 
                 ImageViewBox im = new ImageViewBox(this, r); // Create a new ImageViewBox Object
-                im.setPuzzleId(c);
-                im.setImageResource(R.drawable.ic_launcher);
+                //im.setPuzzleId(c);
+                im.setImageResource(R.drawable.gridbox);
                 //im.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
                 im.setPadding(0, 0, 0, 0); //padding in each image if needed
                 //add here on click event etc for each image...
@@ -52,48 +79,36 @@ public class PlayGame extends ActionBarActivity {
             table.addView(tr);
         }
 
-        //Piece Grid - Puzzle pieces in grid
+
+
+    }
+    public void populatePuzzlePieceGrid(){
+        int x = 0; // counter
         TableLayout tbl = (TableLayout) findViewById(R.id.pieceGrid);
-             for (int r=1; r<=rowCount; r++){
+        for (int r=1; r<=rowCount; r++){
             TableRow tr = new TableRow(this);
+
             for (int c=1; c<=columnCount; c++){
-
-                ImageViewBox im = new ImageViewBox(this, r); // Create a new ImageViewBox Object
-                if(c == 1)  im.setImageResource(R.drawable.whale1);
-                if(c == 2)  im.setImageResource(R.drawable.whale2);
-                if(c == 3)  im.setImageResource(R.drawable.whale3);
-                if(c == 4)  im.setImageResource(R.drawable.whale4);
-                if(c == 5)  im.setImageResource(R.drawable.whale5);
-                if(c == 6)  im.setImageResource(R.drawable.whale6);
-                if(c == 7)  im.setImageResource(R.drawable.whale7);
-                if(c == 8)  im.setImageResource(R.drawable.whale8);
-                if(c == 9)  im.setImageResource(R.drawable.whale9);
+                ImageViewBox im = new ImageViewBox(this, x); // Create a new ImageViewBox Object
+                if(x == 0) im.setImageResource(R.drawable.whale1);
+                if(x == 1) im.setImageResource(R.drawable.whale2);
+                if(x == 2) im.setImageResource(R.drawable.whale3);
+                //if(x == 3) im.setImageResource(R.drawable.whale5);
 
 
-
+                x++;
 
                 im.setPadding(0, 0, 0, 0);
-
                 im.setOnTouchListener(new dropTouchListener());
                 //Gives the piece an id
-                im.setPuzzleId(c);
+                // im.setPuzzleId(c);
                 //Width Height of image
-                tr.addView(im,imageWidth, imageHeight);
+                tr.addView(im,40, 40);
+
+
             }
-            table.addView(tr);
+            tbl.addView(tr);
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     //Listener Classes implemented here
@@ -119,6 +134,8 @@ public class PlayGame extends ActionBarActivity {
     }
 
 
+
+
      class puzzleDragListener implements View.OnDragListener {
         //Handles the event that occurs when puzzle piece is dragged onto it
 
@@ -139,9 +156,9 @@ public class PlayGame extends ActionBarActivity {
                     //handle the dragged image
                     View view = (View) event.getLocalState();
                     view.setVisibility(View.INVISIBLE);
-                    ImageView dropTarget = (ImageView) v;
-                    ImageView dropped = (ImageView) view;
-
+                    ImageViewBox dropTarget = (ImageViewBox) v;
+                    ImageViewBox dropped = (ImageViewBox) view;
+                    
                     dropTarget.setImageResource(R.drawable.fox);
 
                     break;
