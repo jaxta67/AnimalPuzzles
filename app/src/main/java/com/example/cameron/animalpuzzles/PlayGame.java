@@ -100,6 +100,8 @@ public class PlayGame extends ActionBarActivity {
                        break;
                    case 2: im.setImageResource(R.drawable.whale3);
                        break;
+                   case 3: im.setImageResource(R.drawable.whale4);
+                       break;
 
                }
                 im.setPuzzleId(x);
@@ -132,6 +134,7 @@ public class PlayGame extends ActionBarActivity {
                 ClipData data = ClipData.newPlainText("", "");
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
                 v.startDrag(data, shadowBuilder, v, 0);
+
 
                 return true;
 
@@ -167,6 +170,7 @@ public class PlayGame extends ActionBarActivity {
                     view.setVisibility(View.INVISIBLE);
                     ImageViewBox dropTarget = (ImageViewBox) v;
                     ImageViewBox dropped = (ImageViewBox) view;
+
 
                     dropTarget.setImageResource(R.drawable.fox);
 
