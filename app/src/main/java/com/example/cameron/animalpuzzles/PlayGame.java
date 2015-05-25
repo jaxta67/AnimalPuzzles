@@ -114,28 +114,7 @@ public class PlayGame extends ActionBarActivity {
         startActivity(i);
         return true;
     }
-    //Listener Classes implemented here
 
-    /*class dropTouchListener implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            // Handles touch dropping
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                // Drag code here
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
-                v.startDrag(data, shadowBuilder, v, 0);
-
-
-                return true;
-
-            } else {
-                return false;
-            }
-
-        }
-    } */
 
 
 
@@ -158,7 +137,7 @@ public class PlayGame extends ActionBarActivity {
                     view.setVisibility(View.INVISIBLE);
                     dropTarget.setComplete();
                     checkCompleteStatus();
-                    
+
                 }
 
             }
