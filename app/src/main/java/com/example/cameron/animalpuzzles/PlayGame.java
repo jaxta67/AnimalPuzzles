@@ -85,40 +85,30 @@ public class PlayGame extends ActionBarActivity {
 
     }
     public void populatePuzzlePieceGrid(){
-        int x = 0; // counter
+        int x = 1; // counter
         TableLayout tbl = (TableLayout) findViewById(R.id.pieceGrid);
         for (int r=1; r<=rowCount; r++){
             TableRow tr = new TableRow(this);
 
             for (int c=1; c<=columnCount; c++){
-                ImageViewBox im = new ImageViewBox(this, x); // Create a new ImageViewBox Object
 
-               switch(x){
-                   case 0: im.setImageResource(R.drawable.whale1);
-                       break;
-                   case 1: im.setImageResource(R.drawable.whale2);
-                       break;
-                   case 2: im.setImageResource(R.drawable.whale3);
-                       break;
-                   case 3: im.setImageResource(R.drawable.whale4);
-                       break;
-
-               }
-                im.setPuzzleId(x);
-
-
-                x++;
+                String picture = "whale";
+                String picId = "R.drawable."+picture+x;
+                int someId = PlayGame.this.getResources().getIdentifier("whale"+x,"drawable",PlayGame.this.getPackageName());
+                ImageViewBox im = new ImageViewBox(this, someId,someId); // Create a new ImageViewBox Object
+                im.setImageResource(someId);
 
                 im.setPadding(0, 0, 0, 0);
                 im.setOnTouchListener(new dropTouchListener());
-                //Gives the piece an id
-                // im.setPuzzleId(c);
+
                 //Width Height of image
-                tr.addView(im,40, 40);
+                tr.addView(im,imageWidth, imageHeight);
+                x++;
 
 
             }
             tbl.addView(tr);
+
         }
     }
 
@@ -172,7 +162,7 @@ public class PlayGame extends ActionBarActivity {
                     ImageViewBox dropped = (ImageViewBox) view;
 
 
-                    dropTarget.setImageResource(R.drawable.fox);
+                    dropTarget.setImageResource(dropped.getDrawableId());
 
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:

@@ -11,19 +11,20 @@
 
 
     <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="368dp"
-        android:id="@+id/tableGrid"
-        android:layout_gravity="center_horizontal">
-
-    </TableLayout>
-
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="188dp"
+        android:layout_height="0dp"
         android:id="@+id/pieceGrid"
         android:layout_weight="0.69"
         android:layout_gravity="center_horizontal"></TableLayout>
+
+    <TableLayout
+        android:layout_width="273dp"
+        android:layout_height="144dp"
+        android:id="@+id/tableGrid"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.30">
+
+    </TableLayout>
 
 
 </LinearLayout>
