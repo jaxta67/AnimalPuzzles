@@ -1,6 +1,7 @@
 package com.example.cameron.animalpuzzles;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.DragEvent;
@@ -20,10 +21,7 @@ public class PlayGame extends ActionBarActivity {
     int columnCount = 3;
     int imageWidth = 44;
     int imageHeight = 44;
-
-
-
-
+    int pieces = 0;
 
 
     @Override
@@ -32,37 +30,13 @@ public class PlayGame extends ActionBarActivity {
         setContentView(R.layout.activity_play_game);
         populatePuzzlePieceGrid();
         populateDropBoxes();
-        //TableLayout layout = (TableLayout) findViewById(R.id.tableGrid);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }
     public void populateDropBoxes(){
         //The grid of squares used as puzzle boxes
         TableLayout table = (TableLayout) findViewById(R.id.tableGrid);
-        int x = 0;
+        int x = 1;
         for (int r=1; r<=rowCount; r++){
             TableRow tr = new TableRow(this);
             for (int c=1; c<=columnCount; c++){
@@ -75,7 +49,7 @@ public class PlayGame extends ActionBarActivity {
                 //add here on click event etc for each image...
                 im.setOnDragListener(new puzzleDragListener());
                 //Width Height of image
-                tr.addView(im,imageWidth, imageHeight);
+                tr.addView(im,imageWidth ,imageHeight);
                 x++;
             }
             table.addView(tr);
@@ -84,6 +58,9 @@ public class PlayGame extends ActionBarActivity {
 
 
     }
+
+
+
     public void populatePuzzlePieceGrid(){
         int x = 1; // counter
         TableLayout tbl = (TableLayout) findViewById(R.id.pieceGrid);
@@ -92,17 +69,17 @@ public class PlayGame extends ActionBarActivity {
 
             for (int c=1; c<=columnCount; c++){
 
-                String picture = "whale";
-                String picId = "R.drawable."+picture+x;
+
                 int someId = PlayGame.this.getResources().getIdentifier("whale"+x,"drawable",PlayGame.this.getPackageName());
                 ImageViewBox im = new ImageViewBox(this, someId,someId); // Create a new ImageViewBox Object
                 im.setImageResource(someId);
 
                 im.setPadding(0, 0, 0, 0);
                 im.setOnTouchListener(new dropTouchListener());
+                im.setPuzzleId(x);
 
                 //Width Height of image
-                tr.addView(im,imageWidth, imageHeight);
+                tr.addView(im,imageHeight, imageWidth);
                 x++;
 
 
@@ -111,10 +88,35 @@ public class PlayGame extends ActionBarActivity {
 
         }
     }
+    public boolean checkCompleteStatus() {
 
+        boolean outcome = false;
+        int counter = 0;
+        TableLayout table = (TableLayout) findViewById(R.id.tableGrid);
+        int numImageBox = table.getChildCount();
+        for (int i = 0; i < numImageBox; i++) {
+            TableRow tr = (TableRow) table.getChildAt(i);
+            for (int x = 0; x < tr.getChildCount(); x++) {
+                ImageViewBox img = (ImageViewBox) tr.getChildAt(x);
+                if (img.isComplete()) {
+                    outcome = true;
+                } else {
+                    return false;
+                }
+
+            }
+
+        }
+
+
+        //if everything isComplete() then go to new activity
+        Intent i = new Intent(PlayGame.this, MainActivity.class);
+        startActivity(i);
+        return true;
+    }
     //Listener Classes implemented here
 
-    class dropTouchListener implements View.OnTouchListener {
+    /*class dropTouchListener implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -133,48 +135,38 @@ public class PlayGame extends ActionBarActivity {
             }
 
         }
-    }
+    } */
 
 
 
-
-     class puzzleDragListener implements View.OnDragListener {
+    class puzzleDragListener implements View.OnDragListener {
         //Handles the event that occurs when puzzle piece is dragged onto it
 
         @Override
         public boolean onDrag(View v, DragEvent event) {
             //handle drag event
-            switch (event.getAction()) {
-                case DragEvent.ACTION_DRAG_STARTED:
-                    //no action needed
-                    break;
-                case DragEvent.ACTION_DRAG_ENTERED:
-                    //no action needed
-                    break;
-                case DragEvent.ACTION_DRAG_EXITED:
-                    //no action needed
-                    break;
-                case DragEvent.ACTION_DROP:
-                    //handle the dragged image
-                    View view = (View) event.getLocalState();
-                    view.setVisibility(View.INVISIBLE);
-                    ImageViewBox dropTarget = (ImageViewBox) v;
-                    ImageViewBox dropped = (ImageViewBox) view;
+            if (event.getAction() == DragEvent.ACTION_DROP) {
 
 
+                //handle the dragged image
+                View view = (View) event.getLocalState();
+
+                ImageViewBox dropTarget = (ImageViewBox) v;
+                ImageViewBox dropped = (ImageViewBox) view;
+                if(dropped.equalId(dropTarget)) {
                     dropTarget.setImageResource(dropped.getDrawableId());
+                    view.setVisibility(View.INVISIBLE);
+                    dropTarget.setComplete();
+                    checkCompleteStatus();
+                    
+                }
 
-                    break;
-                case DragEvent.ACTION_DRAG_ENDED:
-                    //no action needed
-                    break;
-                default:
-                    break;
             }
 
             return true;
         }
     }
+
 
 
 
