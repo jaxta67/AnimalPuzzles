@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 public class PlayGame extends ActionBarActivity {
 
@@ -49,7 +53,7 @@ public class PlayGame extends ActionBarActivity {
                 //add here on click event etc for each image...
                 im.setOnDragListener(new puzzleDragListener());
                 //Width Height of image
-                tr.addView(im,imageWidth ,imageHeight);
+                tr.addView(im, imageWidth, imageHeight);
                 x++;
             }
             table.addView(tr);
@@ -62,6 +66,7 @@ public class PlayGame extends ActionBarActivity {
 
 
     public void populatePuzzlePieceGrid(){
+        List<ImageViewBox> images = new ArrayList<>();
         int x = 1; // counter
         TableLayout tbl = (TableLayout) findViewById(R.id.pieceGrid);
         for (int r=1; r<=rowCount; r++){
@@ -77,16 +82,30 @@ public class PlayGame extends ActionBarActivity {
                 im.setPadding(0, 0, 0, 0);
                 im.setOnTouchListener(new dropTouchListener());
                 im.setPuzzleId(x);
+                images.add(im);
 
                 //Width Height of image
-                tr.addView(im,imageHeight, imageWidth);
+                //tr.addView(im,imageHeight, imageWidth);
                 x++;
 
 
             }
-            tbl.addView(tr);
+            //tbl.addView(tr);
 
         }
+
+        Collections.shuffle(images);
+
+        x=0;
+        for (int r=1; r<=rowCount; r++){
+            TableRow tr = new TableRow(this);
+            for (int c=1; c<=columnCount; c++){
+                tr.addView(images.get(x),imageHeight,imageWidth);
+                x++;
+            }
+            tbl.addView(tr);
+        }
+
     }
     public boolean checkCompleteStatus() {
 
